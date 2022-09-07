@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Video</title>
+</head>
+<body>
+
+
+
+<form th:action="@{/videos/{id}/{lessonId}/update (id=${videoId},lessonId=${lessonIdd})}"
+      th:object="${video}"
+      th:method="PATCH">
+    <div>
+        <label>
+            <input th:field="*{videoName}" placeholder="Video Name">
+        </label>
+    </div>
+
+    <div>
+        <label>
+            <input th:field="*{link}" placeholder="Video Link">
+        </label>
+    </div>
+
+    <div>
+        <input type="submit" value="update">
+    </div>
+</form>
+</body>
+</html>

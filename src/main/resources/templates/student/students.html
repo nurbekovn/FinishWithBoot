@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Companies</title>
+    <style>table,
+    td {
+        border: 1px solid #333;
+        margin-top: 200px;
+        margin-left: auto;
+        margin-right: auto;
+        font-size: 25px;
+    }
+
+    thead,
+    tfoot {
+        background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRX63729dTpoFWQVn9teKQvqzv0_ZF-0w_V8Tujl-R65Q&s");
+        color: #344712;
+    }
+    </style>
+    <style>
+        table, th, td {
+            border: 1px solid #a99393;
+            padding: 3px;
+        }
+
+        body {
+            background-image: url("https://img.freepik.com/free-vector/white-abstract-wallpaper_23-2148830026.jpg?w=2000");
+        }
+
+        .addStud {
+            display: flex;
+            justify-content: center;
+        }
+
+        .mainButton {
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+
+<table class="table table-bordered ">
+    <thead class="table-dark">
+    <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Student firstName</th>
+        <th scope="col">LastName</th>
+        <th scope="col">Email</th>
+        <th scope="col">StudyFormat</th>
+        <th scope="col">PhoneNumber</th>
+        <th scope="col">Update</th>
+        <th scope="col">Delete</th>
+        <th scope="col">Assign</th>
+
+    </tr>
+    </thead>
+
+    <!--    <button type="button" value="Count" class="btn btn-primary btn-sm">-->
+    <!--        <a th:action="GET" th:href="@{/students/countOfStudents/{companyId}(companyId=${companyId})}"-->
+    <!--           th:text="${students}"></a>-->
+    <!--        Count of Students-->
+    <!--    </button>-->
+
+    <tbody class="table-success">
+    <tr th:each="student:${students}">
+        <td th:text="${student.id}"></td>
+        <td th:text="${student.firstName}"></td>
+        <td th:text="${student.lastName}"></td>
+        <td th:text="${student.phoneNumber}"></td>
+        <td th:text="${student.email}"></td>
+        <td th:text="${student.studyFormat}"></td>
+
+
+        <td><a th:href="@{/students/edit/{id}(id=${student.getId()})}">
+            <button style="height: 40px; width: 80px; background-color:blue;">Update</button>
+        </a>
+        </td>
+        <td>
+            <form th:method="DELETE"
+                  th:action="@{/students/{id}/{companyId}(id=${student.getId()},companyId=${companyId})}">
+                <input type="submit" value="Delete" style="height: 40px; width: 80px; background-color:darkorange;"/>
+            </form>
+        </td>
+        <td>
+            <form th:method="POST"
+                  th:action="@{/students/{companyId}/{studentId}/assign(studentId=${student.getId()},companyId=${companyId})}">
+                <select class="form-select form-select-sm" aria-label=".form-select-sm example"
+                        th:object="${course}" th:field="${course.id}">
+                    <option th:each="course : ${allCourses}"
+                            th:value="${course.id}"
+                            th:text="${course.courseName}"></option>
+                </select>
+                <button type="submit" value="assign" style="height: 30px; width: 60px; background: #171c13;"></button>
+            </form>
+
+    </tr>
+    </tbody>
+</table>
+
+<a class="addStud" sec:authorize="hasAnyAuthority('ADMIN','INSTRUCTOR')"
+   th:href="@{/students/{id}/addStudent(id=${companyId})}">
+    <button value="Add Student" style="height: 40px; width: 60px; background: #337dab">Add Student</button>
+</a>
+<br>
+<a class="mainButton" th:href="@{/companies}">
+    <button type="button" class="btn btn-primary btn-sm"> Main</button>
+</a>
+
+</body>
+</html>
